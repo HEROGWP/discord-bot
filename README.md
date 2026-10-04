@@ -74,11 +74,36 @@ python3 bot.py
 We have logged in as <Bot 名稱>
 ```
 
+## 部署
+
+伺服器設定在 `~/.ssh/config` 的 `Contact_system`。在本機執行：
+
+```bash
+./deploy.sh
+```
+
+腳本會：
+
+1. 確認本機 commit 已 push 到 GitHub（伺服器從 GitHub 拉程式碼）
+2. 把本機的 `.env` 上傳到伺服器
+3. 在伺服器上 `git pull`、用 [uv](https://docs.astral.sh/uv/) 安裝 Python 3.12 與套件（第一次會自動 clone 與安裝 uv）
+4. 在 `screen` session `discord-bot` 中重啟 bot（`run.sh` 會在 bot 結束時自動重啟）
+5. 設定 crontab `@reboot`，主機重開後自動啟動
+
+在伺服器上查看狀態：
+
+```bash
+tail -f ~/discord-bot/bot.log   # 查看 log
+screen -r discord-bot           # 進入 bot 畫面（Ctrl+A 再按 D 離開）
+```
+
 ## 專案結構
 
 ```
 .
 ├── bot.py            # Bot 主程式
+├── deploy.sh         # 從本機部署到伺服器
+├── run.sh            # 伺服器上執行 bot（自動重啟）
 ├── requirements.txt  # Python 套件清單
 ├── .env.example      # 環境變數範本
 └── .gitignore
