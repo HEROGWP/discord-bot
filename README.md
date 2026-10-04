@@ -4,7 +4,6 @@
 
 ## 功能
 
-- **`$hello` 回應**：在頻道輸入 `$hello`，bot 會回覆 `Hello!`
 - **成員離開通知**：成員離開伺服器（包含被踢出、被封鎖）時，會在名為 `紀錄` 的文字頻道發送 Embed 通知，內容包含：
   - 頭像與使用者名稱
   - 使用者 ID
@@ -36,7 +35,6 @@ pip install -r requirements.txt
 2. 在 **Bot** 頁面取得 Token
 3. 在 **Bot** 頁面的 **Privileged Gateway Intents** 開啟：
    - **Server Members Intent**（成員離開通知需要）
-   - **Message Content Intent**（`$hello` 指令需要）
 
 ### 2. 設定 Token
 
