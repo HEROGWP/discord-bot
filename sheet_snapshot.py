@@ -4,13 +4,14 @@
 """
 import asyncio
 import io
+import os
 import sys
 
 import aiohttp
 import pymupdf
+from dotenv import load_dotenv
 from PIL import Image, ImageChops
 
-SHEET_ID = 'REDACTED'
 SHEET_GID = 0
 
 # 匯出 PDF 的縮放倍率，3 倍約 216 DPI
@@ -21,7 +22,7 @@ PADDING = 20
 
 def export_url(cell_range):
     return (
-        f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/export'
+        f'https://docs.google.com/spreadsheets/d/{os.environ["SHEET_ID"]}/export'
         f'?format=pdf&gid={SHEET_GID}&range={cell_range}'
         '&gridlines=false&portrait=false&fitw=true&size=A4'
         '&top_margin=0&bottom_margin=0&left_margin=0&right_margin=0'
@@ -68,6 +69,7 @@ async def capture(cell_range):
 
 
 if __name__ == '__main__':
+    load_dotenv()
     cell_range = sys.argv[1] if len(sys.argv) > 1 else 'A31:P64'
     png = asyncio.run(capture(cell_range))
     with open('sheet.png', 'wb') as f:

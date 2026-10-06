@@ -1,4 +1,5 @@
 discord.py
 python-dotenv
-pymupdf
+# 伺服器是 Ubuntu 16.04（glibc 2.23），1.26.0 是最後一版有相容 wheel 的版本
+pymupdf==1.26.0
 pillow

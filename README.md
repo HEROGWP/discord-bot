@@ -11,11 +11,11 @@
   - 加入伺服器時間
   - 擁有的身分組
   - 目前伺服器成員數
-- **每週試算表截圖**：每週 20:00（台灣時間）把 [城戰隊伍試算表](https://docs.google.com/spreadsheets/d/REDACTED/edit?gid=0) 的指定範圍截圖發到 `紀錄` 頻道：
+- **每週試算表截圖**：每週 20:00（台灣時間）把 城戰隊伍試算表 的指定範圍截圖發到 `紀錄` 頻道：
   - 週四：`A31:P64` 週四城戰隊伍攻城表
   - 週日：`R31:AG64` 週日決戰隊伍表
 
-  排程設定在 `bot.py` 的 `WEEKLY_SNAPSHOTS`，試算表 ID 在 `sheet_snapshot.py` 開頭。試算表需設為「知道連結的任何人都能檢視」。執行 `python3 sheet_snapshot.py R31:AG64` 可在本機產生 `sheet.png` 預覽
+  排程設定在 `bot.py` 的 `WEEKLY_SNAPSHOTS`，試算表 ID 設定在 `.env` 的 `SHEET_ID`。試算表需設為「知道連結的任何人都能檢視」。執行 `python3 sheet_snapshot.py R31:AG64` 可在本機產生 `sheet.png` 預覽
 
 ## 環境需求
 
@@ -51,6 +51,7 @@ cp .env.example .env
 
 ```env
 DISCORD_TOKEN=你的 Bot Token
+SHEET_ID=試算表 ID（網址 /d/ 與 /edit 之間那段）
 ```
 
 > `.env` 已列在 `.gitignore` 中，請勿將 Token commit 進版本控制。
