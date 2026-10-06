@@ -11,6 +11,11 @@
   - 加入伺服器時間
   - 擁有的身分組
   - 目前伺服器成員數
+- **每週試算表截圖**：每週 20:00（台灣時間）把 [城戰隊伍試算表](https://docs.google.com/spreadsheets/d/REDACTED/edit?gid=0) 的指定範圍截圖發到 `紀錄` 頻道：
+  - 週四：`A31:P64` 週四城戰隊伍攻城表
+  - 週日：`R31:AG64` 週日決戰隊伍表
+
+  排程設定在 `bot.py` 的 `WEEKLY_SNAPSHOTS`，試算表 ID 在 `sheet_snapshot.py` 開頭。試算表需設為「知道連結的任何人都能檢視」。執行 `python3 sheet_snapshot.py R31:AG64` 可在本機產生 `sheet.png` 預覽
 
 ## 環境需求
 
@@ -57,6 +62,7 @@ DISCORD_TOKEN=你的 Bot Token
 - View Channels
 - Send Messages
 - Embed Links
+- Attach Files（每週試算表截圖需要）
 
 ### 4. 建立紀錄頻道
 
@@ -102,6 +108,7 @@ screen -r discord-bot           # 進入 bot 畫面（Ctrl+A 再按 D 離開）
 ```
 .
 ├── bot.py            # Bot 主程式
+├── sheet_snapshot.py # 試算表範圍截圖
 ├── deploy.sh         # 從本機部署到伺服器
 ├── run.sh            # 伺服器上執行 bot（自動重啟）
 ├── requirements.txt  # Python 套件清單

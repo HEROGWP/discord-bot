@@ -1,7 +1,12 @@
+import datetime
+import io
 import os
 
 import discord
+from discord.ext import tasks
 from dotenv import load_dotenv
+
+import sheet_snapshot
 
 load_dotenv()
 
@@ -10,9 +15,42 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 
+# 台灣沒有日光節約時間，用固定 UTC+8 即可
+TAIPEI = datetime.timezone(datetime.timedelta(hours=8))
+# 每週排程截圖：星期幾（週一為 0）→（試算表範圍, 訊息標題）
+WEEKLY_SNAPSHOTS = {
+    3: ('A31:P64', '週四城戰隊伍攻城表'),
+    6: ('R31:AG64', '週日決戰隊伍表'),
+}
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
+    if not weekly_sheet_snapshot.is_running():
+        weekly_sheet_snapshot.start()
+
+@tasks.loop(time=datetime.time(hour=20, minute=0, tzinfo=TAIPEI))
+async def weekly_sheet_snapshot():
+    now = datetime.datetime.now(TAIPEI)
+    snapshot = WEEKLY_SNAPSHOTS.get(now.weekday())
+    if snapshot is None:
+        return
+
+    cell_range, title = snapshot
+    png = await sheet_snapshot.capture(cell_range)
+    filename = f'sheet-{now:%Y%m%d}.png'
+    for guild in client.guilds:
+        channel = discord.utils.get(guild.text_channels, name='紀錄')
+        if channel is None:
+            continue
+        await channel.send(
+            f'📊 {now:%Y/%m/%d} {title}',
+            file=discord.File(io.BytesIO(png), filename=filename),
+        )
+
+@weekly_sheet_snapshot.error
+async def on_weekly_sheet_snapshot_error(error):
+    print(f'[weekly_sheet_snapshot] 截圖失敗：{error!r}')
 
 @client.event
 async def on_member_remove(member):
