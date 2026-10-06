@@ -19,8 +19,8 @@ client = discord.Client(intents=intents)
 TAIPEI = datetime.timezone(datetime.timedelta(hours=8))
 # 每週排程截圖：星期幾（週一為 0）→（試算表範圍, 訊息標題）
 WEEKLY_SNAPSHOTS = {
-    3: ('A31:P64', '週四城戰隊伍攻城表'),
-    6: ('R31:AG64', '週日決戰隊伍表'),
+    3: ('A31:P62', '週四城戰隊伍攻城表'),
+    6: ('R31:AG62', '週日決戰隊伍表'),
 }
 
 @client.event

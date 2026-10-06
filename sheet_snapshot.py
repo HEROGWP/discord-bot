@@ -1,6 +1,6 @@
 """把公開 Google 試算表的指定範圍匯出成 PNG。
 
-單獨執行可產生預覽圖：python sheet_snapshot.py R31:AG64
+單獨執行可產生預覽圖：python sheet_snapshot.py R31:AG62
 """
 import asyncio
 import io
@@ -63,14 +63,14 @@ def pdf_to_png(pdf_bytes):
 
 
 async def capture(cell_range):
-    """回傳試算表指定範圍（例如 'A31:P64'）的 PNG bytes。"""
+    """回傳試算表指定範圍（例如 'A31:P62'）的 PNG bytes。"""
     pdf_bytes = await fetch_pdf(cell_range)
     return await asyncio.to_thread(pdf_to_png, pdf_bytes)
 
 
 if __name__ == '__main__':
     load_dotenv()
-    cell_range = sys.argv[1] if len(sys.argv) > 1 else 'A31:P64'
+    cell_range = sys.argv[1] if len(sys.argv) > 1 else 'A31:P62'
     png = asyncio.run(capture(cell_range))
     with open('sheet.png', 'wb') as f:
         f.write(png)
